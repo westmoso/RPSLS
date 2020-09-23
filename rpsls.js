@@ -15,30 +15,39 @@
 //make an Item class for the individual dice rolls: i.e. rock, scissors, paper, lizard, spock (random?)
 //make a Game class, for the rules of the items? of the game i.e. rock CRUSHES, scissor CUTS etc ake a a single game class then create instances of that game (i think). class = Game, instances of Game 
 //Player, Item, Game
-//Wins structure = {  "Rock" => %w(Lizard Scissors),
-//  "Paper" => %w(Rock, Spock),
-//  "Scissors" => %w(Lizard Paper),
-//  "Lizard" => %w(Paper Spock),
-//  "Spock" => %w(Scissors Rock)  }.freeze
+//Wins structure = {  "Rock" => %w(Lizard Scissors), "Paper" => %w(Rock, Spock), "Scissors" => %w(Lizard Paper),  "Lizard" => %w(Paper Spock), "Spock" => %w(Scissors Rock)  }.freeze
+
+//function selectPlayers() {
+    let firstPlayer = promptFor("Welcome to Rock Paper Scissors Lizard Spock! Please enter Player One's name: ", chars); //how to automatically enter first player
+    let secondPlayer = promptFor("Enter Player Two's name or type 'computer' to play against A.I.", chars);
+        //if(secondPlayer === "computer"){
+            //return true;
+        //}
+        //else{
+        //    return false;
+       // }
+        //return secondPlayer
+//
+    //let testPrompt = promptFor("Welcome to Rock Paper Scissors Lizard Spock! Please enter your name: ", chars)
 
 class Game {
     constructor() {
-        this.playerOne = new Player ("Human1") //this.PlayerThree= new Player ("Human2")
-        this.playerTwo= new Player ("Computer")
+        this.playerOne = new Player (firstPlayer); //this.PlayerThree= new Player ("Human2") //see if you can input results/input from selectPlayer prompt into these values
+        this.playerTwo= new Player (secondPlayer);
         
         this.dice = [];
 
-        this.dice.push(new Die(Rock, crushes)); //rock crushes lizard and crushes scissors // SHOULD THE ACTIONS (CRUSH, EAT, ETC) OF THE ITEMS (ROCK, LIZARD, ETC) BE CHILDREN/INHERITANCE/NESTED? 
-        this.dice.push(new Die(Paper, covers, disproves)); //paper covers rock and disproves spock // SHOULD THERE BE A FUNCTION TO CALL AN RANDOM ACTION BASED ON THE ITEM SELECTED (BY PLAYER ONE) 
-        this.dice.push(new Die(Scissors, cuts, decapitates)); //scissors cuts papers and decapitates lizard // OR OR OR DOES THE ITEM SELECTED BY PLAYER TWO DETERMINE WHICH ACTION HAPPENS
-        this.dice.push(new Die(Lizard, poisons, eats)); //lizard poisons spock and eats paper //ACTUALLY THE ACTIONS SHOULD BE IF STATEMENTS IF PLAYER ONE ROLLS ROCK & PLAYER 2 ROLLS LIZARD DEPENDING ON THE ITEM ROLLED
-        this.dice.push(new Die(Spock, smashes, vaporizes)); //spock smashes scissors and vaporizes rock // THAT DETERMINES WHICH ONE WINS. IN THIS CASE ROCK WOULD BE LIZARD BECAUSE OF....A RULE? A SETTING? THAT SAYS ROCK > LIZARD
-                                                                                                                                                                    //SOPHIE DO NOT TRY TO DO GREATER THAN, IT WILL NOT WORK
+        this.dice.push(new Die(Rock)); //rock crushes lizard and crushes scissors // put [itemB] is {actioned} by [itemA]
+        this.dice.push(new Die(Paper)); //paper covers rock and disproves spock 
+        this.dice.push(new Die(Scissors)); //scissors cuts papers and decapitates lizard
+        this.dice.push(new Die(Lizard)); //lizard poisons spock and eats paper
+        this.dice.push(new Die(Spock)); //spock smashes scissors and vaporizes rock
     }    
 
 
     runGame (){ //main method
         this.displayRules(); 
+        
 
         while(this.playerOne.score < 3 && this.playerTwo.score < 3) {
             let playerOneTotal = this.playerOne.rollAllDice(this.dice);   
@@ -104,13 +113,26 @@ class Die {
         //this.action2 = action2;
     }
 
+    
     generateRandomNumber() {
         let randomNumber = Math.floor(Math.random() * this.numberOfSides)+ 1;
         return randomNumber;
     }
 }
 
+function promptFor(question, valid) {
+    do {
+      var response = prompt(question).trim();
+    } while (!response || !valid(response));
+    return response;
+  }
 
+// helper function to pass in as default promptFor validation
+function chars(input) {
+    return true; // default validation only
+  }
+
+//
 let game = new Game();
 game.runGame();
 console.log('game', game);
@@ -118,3 +140,7 @@ console.log('game', game);
 // let dieTest = new Die(10);
 // let testResult = dieTest.generateRandomNumber();
 // console.log('test result', testResult)
+
+//helper function to pass into promptFor to validate yes/no answers NOTE: INCLUDE BELOW IF YOU WANT TO PROMPT TO PLAY AGAIN
+//function yesNo(input) {
+//  return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
