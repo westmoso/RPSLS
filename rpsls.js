@@ -27,28 +27,29 @@
         //    return false;
        // }
         //return secondPlayer
-//
-    //let testPrompt = promptFor("Welcome to Rock Paper Scissors Lizard Spock! Please enter your name: ", chars)
 
 class Game {
     constructor() {
-        this.playerOne = new Player (firstPlayer); //this.PlayerThree= new Player ("Human2") //see if you can input results/input from selectPlayer prompt into these values
+        this.playerOne = new Player (firstPlayer); //see if you can send inputfrom selectPlayer prompt into these values
         this.playerTwo= new Player (secondPlayer);
         
         this.dice = [];
 
-        this.dice.push(new Die(Rock)); //rock crushes lizard and crushes scissors // put [itemB] is {actioned} by [itemA]
-        this.dice.push(new Die(Paper)); //paper covers rock and disproves spock 
-        this.dice.push(new Die(Scissors)); //scissors cuts papers and decapitates lizard
-        this.dice.push(new Die(Lizard)); //lizard poisons spock and eats paper
-        this.dice.push(new Die(Spock)); //spock smashes scissors and vaporizes rock
+        
+        this.dice.push(new Die("Rock")); //rock crushes lizard and crushes scissors // put [itemB] is {actioned} by [itemA]
+        this.dice.push(new Die("Paper")); //paper covers rock and disproves spock 
+        this.dice.push(new Die("Scissors")); //scissors cuts papers and decapitates lizard
+        this.dice.push(new Die("Lizard")); //lizard poisons spock and eats paper
+        this.dice.push(new Die("Spock")); //spock smashes scissors and vaporizes rock
     }    
 
 
     runGame (){ //main method
         this.displayRules(); 
         
-
+        //needs a prompt in the runGame to either player1 or player 1 + player 2 to choose an object or type/enter an object then that objectInput needs to be entered into....the while loop? a function? 
+            //console.log("playerOne rolled " + this.dice + ".")
+            //console.log("playerTwo rolled " + this.dice + ".")
         while(this.playerOne.score < 3 && this.playerTwo.score < 3) {
             let playerOneTotal = this.playerOne.rollAllDice(this.dice);   
             let playerTwoTotal = this.playerOne.rollAllDice(this.dice); 
@@ -75,18 +76,18 @@ class Game {
     }
 
     displayRules() {
-        console.log("Welcome to Rock Paper Scissors Lizard Spock!");
-        console.log("Two players, human vs computer, or human vs human")
-        console.log("Each item that beats another counts as a wins the round");
-        console.log("Best out of 3 wins the game!");
+        console.log("Each item that beats the other earns a point and wins that round");
+        console.log("Best score out of 3 wins the game!");
+        alert("Rock beats Scissors & Lizard, Paper beats Rock & Spock, Scissors beats Paper & Lizard, Lizard beats Spock & Paper, Spock beats Scissors & Rock")
     }
 }
 
 class Player{
-    constructor(name) {
+    constructor() {
         this.score = 0;
-        this.name = name;
+        this.name = null;
     }
+//do i need a nested object (extends) in this class for the human players and AI behaviors
 
     rollDie(die) {
         let rollResult = die.generateRandomNumber();
@@ -105,19 +106,89 @@ class Player{
     }
 }
 
-class Die {
-    constructor(name, action1, action2) { //if this class, Die, has a constructor of name would you then be able to create a rock instead of the numbers of sides? 
-        this.name = name;    
-        //IF YOU COME BACK TO MAKE ACTIONS PROPERTIES OF THE DIE:: constructor(name, action1, action2)  
-        //this.action1 = action1;
-        //this.action2 = action2;
+class Human extends Player { //see if you can send input firstPlayer from selectPlayer prompt into these values
+    //displayInformation(); {console.log("This cat is named " + this.name + ", and is " + this.age + " years old."); create method to call in  firstplayer
+    constructor() {      
+        super();       
+    }    
+    //pullPlayer(firstPlayer){
+    //}
+    chooseName() {
+        this.name = promptFor("Welcome to Rock Paper Scissors Lizard Spock! Enter player's name: ", chars);
     }
+}
 
+class Computer extends Player { //see if you can send input secondPlayer from selectPlayer prompt into these values
+//displayInformation(); {console.log("This cat is named " + this.name + ", and is " + this.age + " years old."); create method to call in  firstplayer //create method to set computer/AI behavior?
+    constructor() {
+        super();    
+    } 
+   //pullPlayer(secondPlayer) {
+   // }
+    chooseName() {
+        this.name = "computerPlayer"
+    }
+}
+
+
+//NOTE FOR 9/22 GETTING "rpsls.js:136 Uncaught ReferenceError: beats1 is not defined" SO WHEN I START A ROLL IT SELECTS A DIE BUT STOPS HERE
+class Die {
+    constructor(name) { //if this class, Die, has a constructor of name would you then be able to create a rock instead of the numbers of sides? 
+        this.name = name;
+        this.beats1 = beats1; //IF YOU COME BACK TO MAKE ACTIONS PROPERTIES OF THE DIE:: constructor(name, action1, action2)  
+        this.beats2 = beats2;
+    }
     
     generateRandomNumber() {
-        let randomNumber = Math.floor(Math.random() * this.numberOfSides)+ 1;
+        let randomNumber = Math.floor(Math.random() * this.name)+ 1;
         return randomNumber;
     }
+}
+
+class Rock extends Die {
+
+    
+    constructor() {
+        super("Rock");   
+        this.beats1 = ["crushes", "Scissors"]; //[action, object]
+        this.beats2 = ["crushes", "Lizard"]; //[action, object]
+    }    
+}
+
+class Paper extends Die {
+
+    constructor() {
+        super("Paper");   
+        this.beats1 = ["covers", "Rock"]; //[action, object]
+        this.beats2 = ["disproves", "Soock"]; //[action, object]
+    }    
+}
+
+class Scissors extends Die {
+
+    constructor() {
+        super("Scissors");   
+        this.beats1 = ["cuts", "Paper"]; //[action, object]
+        this.beats2 = ["decapitates", "Lizard"]; //[action, object]
+    }    
+}
+
+class Lizard extends Die {
+
+    constructor() {
+        super("Lizard");   
+        this.beats1 = ["poisons", "Spock"]; //[action, object]
+        this.beats2 = ["eats", "Paper"]; //[action, object]
+    }    
+}
+
+class Spock extends Die {
+
+    constructor() {
+        super("Spock");   
+        this.beats1 = ["smashes", "Scissors"]; //[action, object]
+        this.beats2 = ["vaporizes", "Rock"]; //[action, object]          
+    }    
 }
 
 function promptFor(question, valid) {
