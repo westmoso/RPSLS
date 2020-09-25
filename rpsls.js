@@ -28,9 +28,11 @@
 //        // }
 //         //return secondPlayer
 
+alert("Welcome to Rock Paper Scissors Lizard Spock!");
+
 class Game {
     constructor() {
-        this.playerOne = null; //this.PlayerOne //new Player (firstPlayer); //see if you can send inputfrom selectPlayer prompt into these values
+        this.playerOne = new Human(); //this.PlayerOne //new Player (firstPlayer); //see if you can send inputfrom selectPlayer prompt into these values
         this.playerTwo = null;  //Player (secondPlayer);
         
         this.dice = [];
@@ -42,26 +44,110 @@ class Game {
         this.dice.push(new Die("Lizard")); //lizard poisons spock and eats paper
         this.dice.push(new Die("Spock")); //spock smashes scissors and vaporizes rock
     }    
-    setUpGame(){
-        //user input to choose computer or human 
-        //set scores how many points to win, total games
+
+    chooseGameType(){
+        var opponent = prompt("Would you like to play a human or AI?");
+        if(opponent === "human"){
+            this.playerTwo = new Human();
+        
+        } else {
+            this.playerTwo = new AI();
+        }
     }
+    
 
     runGame (){ //main method
+        this.chooseGameType();
+        
+        this.playerOne.name = this.selectPlayerOne();
+            
+        this.playerTwo.name = this.selectPlayerTwo();
+
         this.displayRules(); 
 
-        this.firstPlayerRolls();
-            alert(newroll1);
+        this.playerOne.choice = this.playerOneRolls(); 
+            
+        this.playerTwo.choice = this.playerTwoRolls(); 
+            
+                
+        this.game.results = this.compareChoices();
 
-        this.secondPlayerRolls();
-            alert(newroll2);
+        this.scoreRound()
+
+        //this.humanGame();        
+
+        //this.playerOneRolls(); //need input and if/else for  choices
+            
+
+        //this.playerTwoRolls(); //this.secondPlayerRolls();
+            //alert(newroll2); //needs function & if else  to AI roll this will be only random not an input or button interaction
 
 
-        //function to prompt to roll? select a dice??
-        //needs a prompt in the runGame to either player1 or player 1 + player 2 to choose an object or type/enter an object then that objectInput needs to be entered into....the while loop? a function? 
-            //console.log("playerOne rolled " + this.dice + ".")
-            //console.log("playerTwo rolled " + this.dice + ".")
-        while(this.playerOne.score < 3 && this.playerTwo.score < 3) {
+            //needs a prompt in the runGame to either player1 or player 1 + player 2 to choose an object or type/enter an object then that objectInput needs to be entered into....the while loop? a function? 
+        // while(this.playerOne.score < 3 && this.playerTwo.score < 3) { ///lines 85-106 need to be in a scoring method...maybe?
+        //     let playerOneTotal = this.playerOne.rollAllDice(this.dice);   
+        //     let playerTwoTotal = this.playerTwo.rollAllDice(this.dice); 
+
+        //     if(playerOneTotal > playerTwoTotal) {
+        //         console.log(this.playerOne.name + "won this round!");
+        //         this.playerOne.score++;
+        //     }
+        //     else if(playerTwoTotal > playerOneTotal){
+        //         console.log(this.playerTwo.name + "won this round!");
+        //         this.playerTwo.score++;
+        //     }
+        //     else {
+        //         console.log("Wow! You managed to tie after each rolling " + this.dice.length + "dice!");
+        //     }
+        // }
+        // if(this.playerOne.score > this.playerTwo.score) {
+        //     console.log(this.playerOne.name + "won this game!");
+        // }
+        // else {
+        //     console.log(this.playerTwo.name + "won this game!");
+        // }
+        return gameOver();
+
+        //compare(userChoice, computerChoice);
+    }
+
+    displayRules() {
+        console.log("Each item that beats the other earns a point and wins that round");
+        console.log("Best score out of 3 wins the game!");
+        alert("Rock > Scissors/Lizard\nPaper > Rock/Spock\nScissors > Paper/Lizard\nLizard > Spock/Paper\nSpock > Scissors/Rock")
+    }
+
+    selectPlayerOne(){
+        var playerOne = promptFor("Enter player One's name?", chars); //how to automatically enter first player
+           return playerOne;
+    }
+
+    selectPlayerTwo(){
+        var playerTwo = promptFor("Enter player Two's name or type 'AI' to play against the computer.", chars);
+        if(playerTwo === "AI"){
+            return playerTwo; //i don't like this and i don't know why. i just want to type the human's name why ask about AI?
+        }
+        else {
+            return playerTwo;
+        }         
+    }
+
+    playerOneRolls() {
+        var p1Choice = prompt("Do you choose rock, paper, scissors, lizard, or spock?");
+        this.playerOne.choice = p1Choice;
+    }
+
+    playerTwoRolls() {
+        var p2Choice = prompt("Do you choose rock, paper, scissors, lizard, or spock?");
+        this.playerTwo.choice = p2Choice;
+    }
+
+    compareChoices(){
+
+    }
+
+    scoreRound(){
+        while(this.playerOne.score < 3 && this.playerTwo.score < 3) { ///lines 85-106 need to be in a scoreRound method...maybe?
             let playerOneTotal = this.playerOne.rollAllDice(this.dice);   
             let playerTwoTotal = this.playerTwo.rollAllDice(this.dice); 
 
@@ -83,28 +169,13 @@ class Game {
         else {
             console.log(this.playerTwo.name + "won this game!");
         }
-        return gameOver();
 
-        //compare(userChoice, computerChoice);
     }
+    //if(p1Roll === rock && p2Roll choice === scissors)
+    //alert(playerOne + "'s " + p1rolll + this.beats1[0] + playerTwo + "'s " + p2roll)
 
-    displayRules() {
-        console.log("Each item that beats the other earns a point and wins that round");
-        console.log("Best score out of 3 wins the game!");
-        alert("Rock > Scissors/Lizard\nPaper > Rock/Spock\nScissors > Paper/Lizard\nLizard > Spock/Paper\nSpock > Scissors/Rock")
-    }
-    firstPlayerRolls(){
-        alert("test roll 1!")
-        var userChoice = prompt("Do you choose rock, paper, scissors, lizard, or spock?").toLowerCase();
-        function GetValue(){
-            var myarray= new Array("item1","item2","item3");
-            var random = myarray[Math.floor(Math.random() * myarray.length)];
-            //alert(random);
-            document.getElementById("message").innerHTML=random;
-        }
-    }
 
-    // secondPlayerRolls(){
+    // playerTwoRolls(){
     //     alert("test roll 2!")
     //     let newRoll2 =
     //     function GetValue(){
@@ -115,23 +186,27 @@ class Game {
     //     }
     // }
 
-    gameOver(){
-        alert("Game Over!");
-        let restartGame = promptFor("Would you like to play again?", yesNo, chars);
-        return selectPlayers;
-    }
+    // gameOver(){
+    //     alert("Game Over!");
+    //     let restartGame = promptFor("Would you like to play again?", yesNo, chars);
+    //     return selectPlayers;
+    // }
 }
+
 //i need them to player 1 roll (collect result1 and alert/console.log)
 //then player 2 roll (collectResult2 and alert/console)
 //insert result 1 and result 2....a function to assign/analyze/compare them? to see who won
 //i.e if/else the game pieces to make a result?
+
 class Player{
     constructor() {
         this.score = 0;
         this.name = null;
+        this.choice = null;
     }
 //do i need a nested object (extends) in this class for the human players and AI behaviors
 //do i need the roll die? or roll all die?
+
     rollDie(die) {
         let rollResult = die.generateRandomNumber();
         return rollResult;
@@ -149,7 +224,7 @@ class Player{
     }
 
     generateRandomNumber() {
-        let randomNumber = Math.floor(Math.random() * this.name)+ 1;
+        let randomNumber = Math.floor(Math.random() * 5);
         return randomNumber;
     }
 }
@@ -162,11 +237,11 @@ class Human extends Player { //see if you can send input firstPlayer from select
     //pullPlayer(firstPlayer){
     //}
     chooseName() {
-        this.name = promptFor("Welcome to Rock Paper Scissors Lizard Spock! Enter player's name: ", chars);
+        this.name = promptFor("Enter player 1's name: ", chars);
     }
 }
 
-class Computer extends Player { //see if you can send input secondPlayer from selectPlayer prompt into these values
+class AI extends Player { //see if you can send input secondPlayer from selectPlayer prompt into these values
 //displayInformation(); {console.log("This cat is named " + this.name + ", and is " + this.age + " years old."); create method to call in  firstplayer //create method to set computer/AI behavior?
     constructor() {
         super();    
@@ -174,7 +249,7 @@ class Computer extends Player { //see if you can send input secondPlayer from se
    //pullPlayer(secondPlayer) {
    // }
     chooseName() {
-        this.name = "computerPlayer"
+        this.name = "AI"
     }
 
     generateRandomNumber() {
@@ -257,11 +332,14 @@ function chars(input) {
   }
 
 // helper function to pass into promptFor to validate yes/no answers
-function yesNo(input) {
-    return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
-  }  
+// function yesNo(input) {
+//     return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
+//   }  
 
-//
+//helper function to pass into promptFor to validate yes/no answers NOTE: INCLUDE BELOW IF YOU WANT TO PROMPT TO PLAY AGAIN
+function yesNo(input) {
+ return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
+}
 let game = new Game();
 game.runGame();
 console.log('game', game);
@@ -270,6 +348,3 @@ console.log('game', game);
 // let testResult = dieTest.generateRandomNumber();
 // console.log('test result', testResult)
 
-//helper function to pass into promptFor to validate yes/no answers NOTE: INCLUDE BELOW IF YOU WANT TO PROMPT TO PLAY AGAIN
-//function yesNo(input) {
-//  return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
