@@ -25,7 +25,20 @@ class Game {
         } else {
             this.playerTwo = new AI();
         }
-        }   //closes chooseOpponent
+        } 
+    finalScore(){            
+        var playerOneTotal = (this.results1[0] + this.results2[0] + this.results3[0]) //should add player1 points from each round
+        var playerTwoTotal = (this.results1[1] + this.results2[1] + this.results3[1]) //should add player2 points from each round
+            if(playerOneTotal > playerTwoTotal){                
+                this.finalScore = this.playerOne.name + " has won the game! with " + playerOneTotal + " points!"
+            }
+            else if(playerOneTotal < playerTwoTotal){                
+                this.finalScore = this.playerTwo.name + " has won the game! with " + playerTwoTotal + " points!"
+            }
+            else (playerOneTotal === playerTwoTotal); {                
+                this.finalScore = "Game tied!";
+            }
+        }
     runGame (){ 
         this.chooseOpponent();       
         this.playerOne.name = this.selectPlayerOne();            
@@ -37,7 +50,7 @@ class Game {
         this.results2 = this.scoreRound2();  
         this.pickRound3(); 
         this.results3 = this.scoreRound3();      
-        this.finalScore = scoreGame();
+        this.scoreGame();//this.finalScore = scoreGame();
         }
     displayRules() {
         console.log("Each item that beats the other earns a point and wins that round");
@@ -61,7 +74,7 @@ class Game {
             var p1Choice = prompt(this.playerOne.name + ", do you choose rock, paper, scissors, lizard, or spock?");
                 console.log(this.playerOne.name + " chose " + p1Choice + ".")
                 return this.playerOne.choice = p1Choice 
-            } //closes p1human method
+        } //closes p1human method
     p2HumOrAI(){ //this works to pick either human prompt or auto AI select
             if (this.playerTwo instanceof Human) {
                 var p2Choice = prompt(this.playerTwo.name + ", do you choose rock, paper, scissors, lizard, or spock?");
@@ -73,14 +86,370 @@ class Game {
                     console.log(this.playerTwo.name + " chose " + p3Choice + ".")
                     return this.playerTwo.choice = p3Choice
             }
-            }  //closes p2HumOrAI method          
+        }  //closes p2HumOrAI method      
     pickRound1(){
-        this.playerOne.choice = this.p1Human();             
-        this.playerTwo.choice = this.p2HumOrAI();
-        return this.results1 
-        }//closes pickRound1 
+                this.playerOne.choice = this.p1Human();             
+                this.playerTwo.choice = this.p2HumOrAI(); 
+                return this.results1
+        }//closes pickRound2          
     scoreRound1(){
-            var results1 = "Round 1: " + this.playerOne.name + " has " + this.playerOne.score + " points and " + this.playerTwo.name + " has " + this.playerTwo.score + " points."
+                var results1 =  [this.playerOne.score, this.playerTwo.score] //"Round 1: " + this.playerOne.name + " has " + this.playerOne.score + " points and " + this.playerTwo.name + " has " + this.playerTwo.score + " points."
+                var playerOneChoice = this.playerOne.choice 
+                var playerTwoChoice = this.playerTwo.choice
+                if (playerOneChoice === "rock")
+                    {
+                    if (playerTwoChoice === "rock")
+                    {	
+                        console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with rock, no points awarded!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "lizard")
+                    {
+                        this.playerOne.score++
+                        console.log("Rock crushes lizard")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "scissors")
+                    {
+                        this.playerOne.score++
+                        console.log("Rock crushes scissors")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "paper")
+                    {
+                        this.playerTwo.score++
+                        console.log("Paper covers rock")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "spock")
+                    {
+                        this.playerTwo.score++
+                        console.log("Spock vaporizes Rock")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                }
+            
+                else if (playerOneChoice === "paper")
+                    {
+                    if (playerTwoChoice === "paper")
+                    {
+                        console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with paper, no points awarded!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "rock")
+                    {
+                        this.playerOne.score++
+                        console.log("Paper covers rock!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "spock")
+                    {
+                        this.playerOne.score++
+                        console.log("paper disproves Spock")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "lizard")
+                    {
+                        this.playerTwo.score++
+                        console.log("lizard eats paper")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "scissors")
+                    {
+                        this.playerTwo.score++
+                        console.log("scissors cut paper")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                }
+            
+                else if (playerOneChoice === "scissors")
+                    {
+                    if (playerTwoChoice === "scissors")
+                    {
+                        console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with scissors, no points awarded!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "paper")
+                    {
+                        this.playerOne.score++
+                        console.log("scissors cut paper!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "lizard")
+                    {
+                        this.playerOne.score++
+                        console.log("scissors decapitate lizard")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "rock")
+                    {
+                        this.playerTwo.score++
+                        console.log("rock crushes scissors")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "spock")
+                    {
+                        this.playerTwo.score++
+                        console.log("spock smashes scissors")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                }
+            
+                else if (playerOneChoice === "lizard")
+                    {
+                    if (playerTwoChoice === "lizard")
+                    {
+                        console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with lizard, no points awarded!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "spock")
+                    {
+                        this.playerOne.score++
+                        console.log("lizard poisons Spock!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "paper")
+                    {
+                        this.playerOne.score++
+                        console.log("lizard eats paper!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "rock")
+                    {
+                        this.playerTwo.score++
+                        console.log("rock crushes lizard")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "scissors")
+                    {
+                        this.playerTwo.score++
+                        console.log("scissors decapitates lizard")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                }
+            
+                else if (playerOneChoice === "spock")
+                    {
+                    if (playerTwoChoice === "spock")
+                    {
+                        console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with spock, no points awarded!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "scissors")
+                    {
+                        this.playerOne.score++
+                        console.log("spock smashes scissors!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "rock")
+                    {
+                        this.playerOne.score++
+                        console.log("Spock vaporizes rock!")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "paper")
+                    {
+                        this.playerTwo.score++
+                        console.log("paper disproves Spock")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                    else if (playerTwoChoice === "lizard")
+                    {
+                        this.playerTwo.score++
+                        console.log("lizard poisons Spock")
+                        return [this.playerOne.score, this.playerTwo.score]
+                    }
+                }
+                else (playerTwoChoice === playerOneChoice);{
+                    console.log(results1)
+                    return results1
+                }
+        }//closes scoreround1
+    pickRound2(){
+        this.playerOne.choice = this.p1Human();             
+        this.playerTwo.choice = this.p2HumOrAI(); //need to alert player two choice for AI "ai chose playerTwochoice' ONYL ON AI.
+        return this.results2 //need to make return include a string that puts player who won alert or console (score)
+        }//closes pickRound2
+    scoreRound2(){
+        var results2 =  [this.playerOne.score, this.playerTwo.score] //"Round 2: " + this.playerOne.name + " has " + this.playerOne.score + " points and " + this.playerTwo.name + " has " + this.playerTwo.score + " points."
+        var playerOneChoice = this.playerOne.choice 
+        var playerTwoChoice = this.playerTwo.choice
+        if (playerOneChoice === "rock")
+            {
+            if (playerTwoChoice === "rock")
+            {	
+                console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with rock, no points awarded!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "lizard")
+            {
+                this.playerOne.score++
+                console.log("Rock crushes lizard")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "scissors")
+            {
+                this.playerOne.score++
+                console.log("Rock crushes scissors")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "paper")
+            {
+                this.playerTwo.score++
+                console.log("Paper covers rock")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "spock")
+            {
+                this.playerTwo.score++
+                console.log("Spock vaporizes Rock")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+        }
+    
+        else if (playerOneChoice === "paper")
+            {
+            if (playerTwoChoice === "paper")
+            {
+                console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with paper, no points awarded!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "rock")
+            {
+                this.playerOne.score++
+                console.log("Paper covers rock!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "spock")
+            {
+                this.playerOne.score++
+                console.log("paper disproves Spock")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "lizard")
+            {
+                this.playerTwo.score++
+                console.log("lizard eats paper")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "scissors")
+            {
+                this.playerTwo.score++
+                console.log("scissors cut paper")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+        }
+    
+        else if (playerOneChoice === "scissors")
+            {
+            if (playerTwoChoice === "scissors")
+            {
+                console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with scissors, no points awarded!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "paper")
+            {
+                this.playerOne.score++
+                console.log("scissors cut paper!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "lizard")
+            {
+                this.playerOne.score++
+                console.log("scissors decapitate lizard")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "rock")
+            {
+                this.playerTwo.score++
+                console.log("rock crushes scissors")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "spock")
+            {
+                this.playerTwo.score++
+                console.log("spock smashes scissors")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+        }
+    
+        else if (playerOneChoice === "lizard")
+            {
+            if (playerTwoChoice === "lizard")
+            {
+                console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with lizard, no points awarded!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "spock")
+            {
+                this.playerOne.score++
+                console.log("lizard poisons Spock!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "paper")
+            {
+                this.playerOne.score++
+                console.log("lizard eats paper!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "rock")
+            {
+                this.playerTwo.score++
+                console.log("rock crushes lizard")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "scissors")
+            {
+                this.playerTwo.score++
+                console.log("scissors decapitates lizard");
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+        }
+    
+        else if (playerOneChoice === "spock")
+            {
+            if (playerTwoChoice === "spock")
+            {
+                console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with spock, no points awarded!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "scissors")
+            {
+                this.playerOne.score++
+                console.log("spock smashes scissors!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "rock")
+            {
+                this.playerOne.score++
+                console.log("Spock vaporizes rock!")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "paper")
+            {
+                this.playerTwo.score++
+                console.log("paper disproves Spock")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+            else if (playerTwoChoice === "lizard")
+            {
+                this.playerTwo.score++
+                console.log("lizard poisons Spock")
+                return [this.playerOne.score, this.playerTwo.score]
+            }
+        }
+        else (playerTwoChoice === playerOneChoice);{
+            console.log(results2)
+            return results2
+        }
+        }//closes scoreround2
+    pickRound3(){
+            this.playerOne.choice = this.p1Human();             
+            this.playerTwo.choice = this.p2HumOrAI(); 
+            return this.results3 
+        }//closes pickRound3
+    scoreRound3(){
+            var results3 = [this.playerOne.score, this.playerTwo.score] //"Round 3: " + this.playerOne.name + " has " + this.playerOne.score + " points and " + this.playerTwo.name + " has " + this.playerTwo.score + " points."
             var playerOneChoice = this.playerOne.choice 
             var playerTwoChoice = this.playerTwo.choice
             if (playerOneChoice === "rock")
@@ -88,487 +457,173 @@ class Game {
                 if (playerTwoChoice === "rock")
                 {	
                     console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with rock, no points awarded!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "lizard")
                 {
                     this.playerOne.score++
-                    console.log("Rock crushes lizard");
+                    console.log("Rock crushes lizard")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "scissors")
                 {
                     this.playerOne.score++
-                    console.log("Rock crushes scissors");
+                    console.log("Rock crushes scissors")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "paper")
                 {
                     this.playerTwo.score++
-                    console.log("Paper covers rock");
+                    console.log("Paper covers rock")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "spock")
                 {
                     this.playerTwo.score++
-                    console.log("Spock vaporizes Rock");
+                    console.log("Spock vaporizes Rock")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
             }
-        
+    
             else if (playerOneChoice === "paper")
                 {
                 if (playerTwoChoice === "paper")
                 {
                     console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with paper, no points awarded!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "rock")
                 {
                     this.playerOne.score++
-                    console.log("Paper covers rock!");
+                    console.log("Paper covers rock!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "spock")
                 {
                     this.playerOne.score++
-                    console.log("paper disproves Spock");
+                    console.log("paper disproves Spock")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "lizard")
                 {
                     this.playerTwo.score++
-                    console.log("lizard eats paper");
+                    console.log("lizard eats paper")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "scissors")
                 {
                     this.playerTwo.score++
-                    console.log("scissors cut paper");
+                    console.log("scissors cut paper")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
             }
-        
+    
             else if (playerOneChoice === "scissors")
                 {
                 if (playerTwoChoice === "scissors")
                 {
                     console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with scissors, no points awarded!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "paper")
                 {
                     this.playerOne.score++
-                    console.log("scissors cut paper!");
+                    console.log("scissors cut paper!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "lizard")
                 {
                     this.playerOne.score++
-                    console.log("scissors decapitate lizard");
+                    console.log("scissors decapitate lizard")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "rock")
                 {
                     this.playerTwo.score++
-                    console.log("rock crushes scissors");
+                    console.log("rock crushes scissors")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "spock")
                 {
                     this.playerTwo.score++
-                    console.log("spock smashes scissors");
+                    console.log("spock smashes scissors")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
             }
-        
+    
             else if (playerOneChoice === "lizard")
                 {
                 if (playerTwoChoice === "lizard")
                 {
                     console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with lizard, no points awarded!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "spock")
                 {
                     this.playerOne.score++
-                    console.log("lizard poisons Spock!");
+                    console.log("lizard poisons Spock!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "paper")
                 {
                     this.playerOne.score++
-                    console.log("lizard eats paper!");
+                    console.log("lizard eats paper!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "rock")
                 {
                     this.playerTwo.score++
-                    console.log("rock crushes lizard");
+                    console.log("rock crushes lizard")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "scissors")
                 {
                     this.playerTwo.score++
-                    console.log("scissors decapitates lizard");
+                    console.log("scissors decapitates lizard")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
             }
-        
+    
             else if (playerOneChoice === "spock")
                 {
                 if (playerTwoChoice === "spock")
                 {
                     console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with spock, no points awarded!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "scissors")
                 {
                     this.playerOne.score++
-                    console.log("spock smashes scissors!");
+                    console.log("spock smashes scissors!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "rock")
                 {
                     this.playerOne.score++
-                    console.log("Spock vaporizes rock!");
+                    console.log("Spock vaporizes rock!")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "paper")
                 {
                     this.playerTwo.score++
-                    console.log("paper disproves Spock");
+                    console.log("paper disproves Spock")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
                 else if (playerTwoChoice === "lizard")
                 {
                     this.playerTwo.score++
-                    console.log("lizard poisons Spock");
+                    console.log("lizard poisons Spock")
+                    return [this.playerOne.score, this.playerTwo.score]
                 }
             }
             else (playerTwoChoice === playerOneChoice);{
-                console.log(results1)
-                return results1
+                console.log(results3)
+                return results3
             }
-        }//closes scoreround1
-    pickRound2(){
-    this.playerOne.choice = this.p1Human();             
-    this.playerTwo.choice = this.p2HumOrAI(); //need to alert player two choice for AI "ai chose playerTwochoice' ONYL ON AI.
-    return this.results2 //need to make return include a string that puts player who won alert or console (score)
-        }//closes pickRound2
-    scoreRound2(){
-    var results2 = "Round 2: " + this.playerOne.name + " has " + this.playerOne.score + " points and " + this.playerTwo.name + " has " + this.playerTwo.score + " points."
-    var playerOneChoice = this.playerOne.choice 
-    var playerTwoChoice = this.playerTwo.choice
-    if (playerOneChoice === "rock")
-        {
-        if (playerTwoChoice === "rock")
-        {	
-            console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with rock, no points awarded!")
-        }
-        else if (playerTwoChoice === "lizard")
-        {
-            this.playerOne.score++
-            console.log("Rock crushes lizard");
-        }
-        else if (playerTwoChoice === "scissors")
-        {
-            this.playerOne.score++
-            console.log("Rock crushes scissors");
-        }
-        else if (playerTwoChoice === "paper")
-        {
-            this.playerTwo.score++
-            console.log("Paper covers rock");
-        }
-        else if (playerTwoChoice === "spock")
-        {
-            this.playerTwo.score++
-            console.log("Spock vaporizes Rock");
-        }
-    }
-
-    else if (playerOneChoice === "paper")
-        {
-        if (playerTwoChoice === "paper")
-        {
-            console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with paper, no points awarded!")
-        }
-        else if (playerTwoChoice === "rock")
-        {
-            this.playerOne.score++
-            console.log("Paper covers rock!");
-        }
-        else if (playerTwoChoice === "spock")
-        {
-            this.playerOne.score++
-            console.log("paper disproves Spock");
-        }
-        else if (playerTwoChoice === "lizard")
-        {
-            this.playerTwo.score++
-            console.log("lizard eats paper");
-        }
-        else if (playerTwoChoice === "scissors")
-        {
-            this.playerTwo.score++
-            console.log("scissors cut paper");
-        }
-    }
-
-    else if (playerOneChoice === "scissors")
-        {
-        if (playerTwoChoice === "scissors")
-        {
-            console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with scissors, no points awarded!")
-        }
-        else if (playerTwoChoice === "paper")
-        {
-            this.playerOne.score++
-            console.log("scissors cut paper!");
-        }
-        else if (playerTwoChoice === "lizard")
-        {
-            this.playerOne.score++
-            console.log("scissors decapitate lizard");
-        }
-        else if (playerTwoChoice === "rock")
-        {
-            this.playerTwo.score++
-            console.log("rock crushes scissors");
-        }
-        else if (playerTwoChoice === "spock")
-        {
-            this.playerTwo.score++
-            console.log("spock smashes scissors");
-        }
-    }
-
-    else if (playerOneChoice === "lizard")
-        {
-        if (playerTwoChoice === "lizard")
-        {
-            console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with lizard, no points awarded!")
-        }
-        else if (playerTwoChoice === "spock")
-        {
-            this.playerOne.score++
-            console.log("lizard poisons Spock!");
-        }
-        else if (playerTwoChoice === "paper")
-        {
-            this.playerOne.score++
-            console.log("lizard eats paper!");
-        }
-        else if (playerTwoChoice === "rock")
-        {
-            this.playerTwo.score++
-            console.log("rock crushes lizard");
-        }
-        else if (playerTwoChoice === "scissors")
-        {
-            this.playerTwo.score++
-            console.log("scissors decapitates lizard");
-        }
-    }
-
-    else if (playerOneChoice === "spock")
-        {
-        if (playerTwoChoice === "spock")
-        {
-            console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with spock, no points awarded!")
-        }
-        else if (playerTwoChoice === "scissors")
-        {
-            this.playerOne.score++
-            console.log("spock smashes scissors!");
-        }
-        else if (playerTwoChoice === "rock")
-        {
-            this.playerOne.score++
-            console.log("Spock vaporizes rock!");
-        }
-        else if (playerTwoChoice === "paper")
-        {
-            this.playerTwo.score++
-            console.log("paper disproves Spock");
-        }
-        else if (playerTwoChoice === "lizard")
-        {
-            this.playerTwo.score++
-            console.log("lizard poisons Spock");
-        }
-    }
-    else (playerTwoChoice === playerOneChoice);{
-        console.log(results2)
-        return results2
-    }
-        }//closes scoreround2
-    pickRound3(){
-        this.playerOne.choice = this.p1Human();             
-        this.playerTwo.choice = this.p2HumOrAI(); 
-        return this.results3 
-    	}//closes pickRound3
-    scoreRound3(){
-        var results3 = "Round 3: " + this.playerOne.name + " has " + this.playerOne.score + " points and " + this.playerTwo.name + " has " + this.playerTwo.score + " points."
-        var playerOneChoice = this.playerOne.choice 
-        var playerTwoChoice = this.playerTwo.choice
-        if (playerOneChoice === "rock")
-            {
-            if (playerTwoChoice === "rock")
-            {	
-            	console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with rock, no points awarded!")
-            }
-	        else if (playerTwoChoice === "lizard")
-            {
-		        this.playerOne.score++
-            	console.log("Rock crushes lizard");
-            }
-            else if (playerTwoChoice === "scissors")
-            {
-		        this.playerOne.score++
-            	console.log("Rock crushes scissors");
-            }
-		    else if (playerTwoChoice === "paper")
-            {
-		        this.playerTwo.score++
-            	console.log("Paper covers rock");
-            }
-		    else if (playerTwoChoice === "spock")
-            {
-		        this.playerTwo.score++
-            	console.log("Spock vaporizes Rock");
-            }
-        }
-
-        else if (playerOneChoice === "paper")
-            {
-            if (playerTwoChoice === "paper")
-            {
-            	console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with paper, no points awarded!")
-            }
-	        else if (playerTwoChoice === "rock")
-            {
-		        this.playerOne.score++
-            	console.log("Paper covers rock!");
-            }
-            else if (playerTwoChoice === "spock")
-            {
-		        this.playerOne.score++
-            	console.log("paper disproves Spock");
-            }
-		    else if (playerTwoChoice === "lizard")
-            {
-		        this.playerTwo.score++
-            	console.log("lizard eats paper");
-            }
-		    else if (playerTwoChoice === "scissors")
-            {
-		        this.playerTwo.score++
-            	console.log("scissors cut paper");
-            }
-        }
-
-        else if (playerOneChoice === "scissors")
-            {
-            if (playerTwoChoice === "scissors")
-            {
-            	console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with scissors, no points awarded!")
-            }
-	        else if (playerTwoChoice === "paper")
-            {
-		        this.playerOne.score++
-            	console.log("scissors cut paper!");
-            }
-            else if (playerTwoChoice === "lizard")
-            {
-		        this.playerOne.score++
-            	console.log("scissors decapitate lizard");
-            }
-		    else if (playerTwoChoice === "rock")
-            {
-		        this.playerTwo.score++
-            	console.log("rock crushes scissors");
-            }
-		    else if (playerTwoChoice === "spock")
-            {
-		        this.playerTwo.score++
-            	console.log("spock smashes scissors");
-            }
-        }
-
-        else if (playerOneChoice === "lizard")
-            {
-            if (playerTwoChoice === "lizard")
-            {
-            	console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with lizard, no points awarded!")
-            }
-	        else if (playerTwoChoice === "spock")
-            {
-		        this.playerOne.score++
-            	console.log("lizard poisons Spock!");
-            }
-            else if (playerTwoChoice === "paper")
-            {
-		        this.playerOne.score++
-            	console.log("lizard eats paper!");
-            }
-		    else if (playerTwoChoice === "rock")
-            {
-		        this.playerTwo.score++
-            	console.log("rock crushes lizard");
-            }
-		    else if (playerTwoChoice === "scissors")
-            {
-		        this.playerTwo.score++
-            	console.log("scissors decapitates lizard");
-            }
-        }
-
-        else if (playerOneChoice === "spock")
-            {
-            if (playerTwoChoice === "spock")
-            {
-            	console.log(this.playerOne.name + " & " + this.playerTwo.name + " tied with spock, no points awarded!")
-            }
-	        else if (playerTwoChoice === "scissors")
-            {
-		        this.playerOne.score++
-            	console.log("spock smashes scissors!");
-            }
-            else if (playerTwoChoice === "rock")
-            {
-		        this.playerOne.score++
-            	console.log("Spock vaporizes rock!");
-            }
-		    else if (playerTwoChoice === "paper")
-            {
-		        this.playerTwo.score++
-            	console.log("paper disproves Spock");
-            }
-		    else if (playerTwoChoice === "lizard")
-            {
-		        this.playerTwo.score++
-            	console.log("lizard poisons Spock");
-            }
-        }
-        else (playerTwoChoice === playerOneChoice);{
-            console.log(results3)
-            return results3
-        }
         }//closes scoreround3
-       
     scoreGame() {
-            this.playerOne.score(this.game);
-            let playerTwoTotal = this.playerTw0.score(this.game);
-         if(playerOneTotal <= playerTwoTotal) {
-            console.log(this.playerOne.name + " has won the game!");
-            return finalScore;
-         }
-         else (playerOneTotal >= playerTwoTotal); {
-             console.log(this.playerOne.name + " has won the game!");
-            return finalScore;
-         }
-        //  else (playerOneTotal > playerTwoTotal){
-        //     console.log(this.playerTwo.name + " has won the game!")
-        //     return this.finalScore;
-        //  }
-        //     let playerOneTotal = this.playerOne.choice(this.dice);   
-        //     let playerTwoTotal = this.playerTwo.choice(this.dice); 
-        //     if(playerOneTotal > playerTwoTotal) {
-                
-        //     }
-        //     else if(playerTwoTotal > playerOneTotal){
-        //         console.log(this.playerTwo.name + "won this round!");
-        //         this.playerTwo.score++;
-        //     }
-        //     else {
-        //         console.log("Wow! You managed to tie after each rolling " + this.dice.length + "dice!");
-        //     }
-        //     }
-        //     if(this.playerOne.score > this.playerTwo.score) {
-        //         console.log(this.playerOne.name + "won this game!");
-        //     }
-        //     else {
-        //         console.log(this.playerTwo.name + "won this game!");
-        //     }
-        // } 
+            let finalScore = this.finalScore();
+            return finalScore;            
         } //CLOSES SCOREGAME METHOD
 
 } //DO NOT DELETE THIS LINE THE } CLOSES THE ENTIRE "CLASS GAME" SECTION
