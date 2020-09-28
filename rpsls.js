@@ -17,7 +17,7 @@ class Game {
         this.dice.push(new Die("Scissors")); //scissors cuts papers and decapitates lizard
         this.dice.push(new Die("Lizard")); //lizard poisons spock and eats paper
         this.dice.push(new Die("Spock")); //spock smashes scissors and vaporizes rock
-    }    
+        }    
     chooseOpponent(){
         var opponent = prompt("Would you like to play a human or AI?");
         if(opponent === "human"){
@@ -26,19 +26,26 @@ class Game {
             this.playerTwo = new AI();
         }
         } 
-    finalScore(){            
-        var playerOneTotal = (this.results1[0] + this.results2[0] + this.results3[0]) //should add player1 points from each round
-        var playerTwoTotal = (this.results1[1] + this.results2[1] + this.results3[1]) //should add player2 points from each round
-            if(playerOneTotal > playerTwoTotal){                
-                this.finalScore = this.playerOne.name + " has won the game! with " + playerOneTotal + " points!"
-            }
-            else if(playerOneTotal < playerTwoTotal){                
-                this.finalScore = this.playerTwo.name + " has won the game! with " + playerTwoTotal + " points!"
-            }
-            else (playerOneTotal === playerTwoTotal); {                
+    finalScore(){
+        var a = [this.results1[0], this.results2[0], this.results3[0]];
+        var sum1 = a.reduce(function(a, b, c) { return a + b + c }, 0);
+        var b = [this.results1[1], this.results2[1], this.results3[1]];
+        var sum2 = b.reduce(function(a, b, c) { return a + b + c; }, 0);
+        let playerOneTotal = sum1
+        let playerTwoTotal = sum2
+        if(playerOneTotal >= playerTwoTotal){                
+                this.finalScore = this.playerOne.name + " has won the game!"
+                }
+        else if(playerOneTotal <= playerTwoTotal){                
+                this.finalScore = this.playerTwo.name + " has won the game!"
+                }
+        else (playerOneTotal === playerTwoTotal); {                
                 this.finalScore = "Game tied!";
-            }
-        }
+                }
+        }  
+        
+    gameOver();
+    
     runGame (){ 
         this.chooseOpponent();       
         this.playerOne.name = this.selectPlayerOne();            
@@ -50,7 +57,7 @@ class Game {
         this.results2 = this.scoreRound2();  
         this.pickRound3(); 
         this.results3 = this.scoreRound3();      
-        this.scoreGame();//this.finalScore = scoreGame();
+        this.scoreGame();
         }
     displayRules() {
         console.log("Each item that beats the other earns a point and wins that round");
@@ -74,8 +81,8 @@ class Game {
             var p1Choice = prompt(this.playerOne.name + ", do you choose rock, paper, scissors, lizard, or spock?");
                 console.log(this.playerOne.name + " chose " + p1Choice + ".")
                 return this.playerOne.choice = p1Choice 
-        } //closes p1human method
-    p2HumOrAI(){ //this works to pick either human prompt or auto AI select
+        } 
+    p2HumOrAI(){ 
             if (this.playerTwo instanceof Human) {
                 var p2Choice = prompt(this.playerTwo.name + ", do you choose rock, paper, scissors, lizard, or spock?");
                     console.log(this.playerTwo.name + " chose " + p2Choice + ".")
@@ -86,14 +93,14 @@ class Game {
                     console.log(this.playerTwo.name + " chose " + p3Choice + ".")
                     return this.playerTwo.choice = p3Choice
             }
-        }  //closes p2HumOrAI method      
+        }       
     pickRound1(){
                 this.playerOne.choice = this.p1Human();             
                 this.playerTwo.choice = this.p2HumOrAI(); 
                 return this.results1
-        }//closes pickRound2          
+        }       
     scoreRound1(){
-                var results1 =  [this.playerOne.score, this.playerTwo.score] //"Round 1: " + this.playerOne.name + " has " + this.playerOne.score + " points and " + this.playerTwo.name + " has " + this.playerTwo.score + " points."
+                var results1 =  [this.playerOne.score, this.playerTwo.score] 
                 var playerOneChoice = this.playerOne.choice 
                 var playerTwoChoice = this.playerTwo.choice
                 if (playerOneChoice === "rock")
@@ -264,14 +271,14 @@ class Game {
                     console.log(results1)
                     return results1
                 }
-        }//closes scoreround1
+        }
     pickRound2(){
         this.playerOne.choice = this.p1Human();             
-        this.playerTwo.choice = this.p2HumOrAI(); //need to alert player two choice for AI "ai chose playerTwochoice' ONYL ON AI.
-        return this.results2 //need to make return include a string that puts player who won alert or console (score)
-        }//closes pickRound2
+        this.playerTwo.choice = this.p2HumOrAI(); 
+        return this.results2 
+        }
     scoreRound2(){
-        var results2 =  [this.playerOne.score, this.playerTwo.score] //"Round 2: " + this.playerOne.name + " has " + this.playerOne.score + " points and " + this.playerTwo.name + " has " + this.playerTwo.score + " points."
+        var results2 =  [this.playerOne.score, this.playerTwo.score] 
         var playerOneChoice = this.playerOne.choice 
         var playerTwoChoice = this.playerTwo.choice
         if (playerOneChoice === "rock")
@@ -442,14 +449,14 @@ class Game {
             console.log(results2)
             return results2
         }
-        }//closes scoreround2
+        }
     pickRound3(){
             this.playerOne.choice = this.p1Human();             
             this.playerTwo.choice = this.p2HumOrAI(); 
             return this.results3 
-        }//closes pickRound3
+        }
     scoreRound3(){
-            var results3 = [this.playerOne.score, this.playerTwo.score] //"Round 3: " + this.playerOne.name + " has " + this.playerOne.score + " points and " + this.playerTwo.name + " has " + this.playerTwo.score + " points."
+            var results3 = [this.playerOne.score, this.playerTwo.score] 
             var playerOneChoice = this.playerOne.choice 
             var playerTwoChoice = this.playerTwo.choice
             if (playerOneChoice === "rock")
@@ -620,14 +627,13 @@ class Game {
                 console.log(results3)
                 return results3
             }
-        }//closes scoreround3
+        }
     scoreGame() {
             let finalScore = this.finalScore();
             return finalScore;            
-        } //CLOSES SCOREGAME METHOD
+        } 
 
-} //DO NOT DELETE THIS LINE THE } CLOSES THE ENTIRE "CLASS GAME" SECTION
-
+    } //DO NOT DELETE THIS LINE THE } CLOSES THE ENTIRE "CLASS GAME" SECTION
 class Player{
     constructor() {
         this.score = 0;
@@ -651,7 +657,7 @@ class AI extends Player {
    
     chooseName() {
         this.name = "AI"
-    } //close ai choseName
+    } 
     aiChoice(){
         var p3Choice =  Math.random();
             if (p3Choice < 0.2) {
@@ -665,9 +671,9 @@ class AI extends Player {
             } else {
                 return p3Choice = "spock";
     }//closes last ELse statement
-    } //sloses AIchoice method
+    } 
 
-    }//closes AI instance of Player class
+    }
 class Die {
     constructor(name, beats1, beats2) {
         this.name = name;
@@ -679,44 +685,40 @@ class Rock extends Die {
      
     constructor() {
         super("Rock");   
-        this.beats1 = ["crushes", "Scissors"]; //[action, object]
-        this.beats2 = ["crushes", "Lizard"]; //[action, object]
+        this.beats1 = ["crushes", "Scissors"]; 
+        this.beats2 = ["crushes", "Lizard"];
     }    
-
-    // beats1(){
-    //     .join this.beats1
-    // }
     }
 class Paper extends Die {
 
     constructor() {
         super("Paper");   
-        this.beats1 = ["covers", "Rock"]; //[action, object]
-        this.beats2 = ["disproves", "Soock"]; //[action, object]
+        this.beats1 = ["covers", "Rock"];
+        this.beats2 = ["disproves", "Soock"]; 
     }    
     }
 class Scissors extends Die {
 
     constructor() {
         super("Scissors");   
-        this.beats1 = ["cuts", "Paper"]; //[action, object]
-        this.beats2 = ["decapitates", "Lizard"]; //[action, object]
+        this.beats1 = ["cuts", "Paper"]; 
+        this.beats2 = ["decapitates", "Lizard"]; 
     }    
     }
 class Lizard extends Die {
 
     constructor() {
         super("Lizard");   
-        this.beats1 = ["poisons", "Spock"]; //[action, object]
-        this.beats2 = ["eats", "Paper"]; //[action, object]
+        this.beats1 = ["poisons", "Spock"]; 
+        this.beats2 = ["eats", "Paper"]; 
     }    
     }
 class Spock extends Die {
 
     constructor() {
         super("Spock");   
-        this.beats1 = ["smashes", "Scissors"]; //[action, object]
-        this.beats2 = ["vaporizes", "Rock"]; //[action, object]          
+        this.beats1 = ["smashes", "Scissors"];
+        this.beats2 = ["vaporizes", "Rock"];    
     }    
     }
 function promptFor(question, valid) {
@@ -731,7 +733,6 @@ function chars(input) {
 function yesNo(input) { //helper function to pass into promptFor to validate yes/no answers NOTE: INCLUDE BELOW IF YOU WANT TO PROMPT TO PLAY AGAIN
     return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
     }
-
 let game = new Game();
 game.runGame();
 //game.gameOver();
